@@ -48,6 +48,8 @@ class CookieGroupBaseProcessView(View):
         varname = kwargs.get('varname', None)
         if request.is_ajax():
             response = HttpResponse()
+        elif 'application/json' in request.headers.get("Accept"):
+            response = JsonResponse({}, status=200)
         else:
             response = HttpResponseRedirect(self.get_success_url())
         self.process(request, response, varname)
