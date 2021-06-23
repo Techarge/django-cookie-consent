@@ -49,7 +49,7 @@ class CookieGroup(models.Model):
         try:
             return str(self.cookie_set.all()[0].get_version())
         except IndexError:
-            return ""
+            return self.created.isoformat()
 
     def delete(self, *args, **kwargs):
         super(CookieGroup, self).delete(*args, **kwargs)
