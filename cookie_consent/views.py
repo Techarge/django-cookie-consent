@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.core.exceptions import SuspiciousOperation
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.urls import reverse
 from django.views.generic import ListView, View
 
@@ -40,6 +40,8 @@ class CookieGroupBaseProcessView(RedirectURLMixin, View):
         varname = kwargs.get("varname", None)
         if request.META.get("HTTP_X_REQUESTED_WITH") == "XMLHttpRequest":
             response = HttpResponse()
+        elif 'application/json' in request.headers.get("Accept"):
+            response = JsonResponse({}, status=200)
         else:
             response = HttpResponseRedirect(self.get_success_url())
         self.process(request, response, varname)
